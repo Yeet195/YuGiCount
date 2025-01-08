@@ -4,7 +4,7 @@
              x:Class="YuGiCount.Views.AllNotesPage"
              Title="Your Notes">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="Add_Clicked" IconImageSource="{FontImage Glyph='+', Color='#777', Size=22}"/>
+        <ToolbarItem Text="Add" Clicked="Add_Clicked" IconImageSource="{FontImage Glyph='+', Color='#777', Size=44}"/>
     </ContentPage.ToolbarItems>
 
     <CollectionView x:Name="notesCollection"
