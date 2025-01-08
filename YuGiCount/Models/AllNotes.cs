@@ -17,11 +17,21 @@ internal class AllNotes
 
         IEnumerable<Note> notes = Directory
             .EnumerateFiles(appDataPath, "*.notes.txt")
-            .Select(filename => new Note()
+            .Select(filename =>
             {
-                Filename = filename,
-                Text = File.ReadAllText(filename),
-                Date = File.GetLastWriteTime(filename)
+                var lines = File.ReadAllLines(filename);
+                return new Note()
+                {
+                    Filename = filename,
+                    Text = string.Join(Environment.NewLine, lines.Skip(1)),
+                    Date = File.GetLastWriteTime(filename),
+                    IsWin = lines.FirstOrDefault()?.Trim().ToUpper() switch
+                    {
+                        "WIN" => true,
+                        "LOSS" => false,
+                        _ => null
+                    }
+                };
             })
             .OrderBy(note => note.Date);
 

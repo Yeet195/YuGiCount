@@ -20,15 +20,22 @@ public partial class NotePage : ContentPage
 		LoadNote(Path.Combine(appDataPath, randomFileName));
 	}
 
-	private async void SaveButton_Clicked(object sender, EventArgs e)
-	{
-		if (BindingContext is Models.Note note)
-			File.WriteAllText(note.Filename, TextEditor.Text);
+    private async void SaveButton_Clicked(object sender, EventArgs e)
+    {
+        if (BindingContext is Models.Note note)
+        {
+            var lines = new List<string>
+        {
+            note.IsWin == true ? "WIN" : "LOSS",
+            TextEditor.Text
+        };
+            File.WriteAllLines(note.Filename, lines);
+        }
 
-		await Shell.Current.GoToAsync("..");
-	}
+        await Shell.Current.GoToAsync("..");
+    }
 
-	private async void DeleteButton_Clicked(object sender, EventArgs e)
+    private async void DeleteButton_Clicked(object sender, EventArgs e)
 	{
 		if (BindingContext is Models.Note note)
 		{
