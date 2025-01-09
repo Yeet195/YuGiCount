@@ -9,8 +9,6 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:BoolToWinConverter x:Key="BoolToWinConverter" />
-            <local:BoolToLossConverter x:Key="BoolToLossConverter" />
             <local:DiceRollSymbolConverter x:Key="DiceRollSymbolConverter" />
         </ResourceDictionary>
     </Application.Resources>

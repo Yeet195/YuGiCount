@@ -6,8 +6,18 @@ internal class AllNotes
 {
     public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
 
-    public AllNotes() =>
-        LoadNotes();
+    private bool? GetWinStateFromFile(string filename)
+    {
+        string fileContent = File.ReadAllText(filename);
+
+        // Assuming the file format includes a "win" or "loss" marker
+        if (fileContent.Contains("[WIN]"))
+            return true;
+        if (fileContent.Contains("[LOSS]"))
+            return false;
+
+        return null; // Default to "no selection".
+    }
 
     public void LoadNotes()
     {
@@ -17,21 +27,12 @@ internal class AllNotes
 
         IEnumerable<Note> notes = Directory
             .EnumerateFiles(appDataPath, "*.notes.txt")
-            .Select(filename =>
+            .Select(filename => new Note()
             {
-                var lines = File.ReadAllLines(filename);
-                return new Note()
-                {
-                    Filename = filename,
-                    Text = string.Join(Environment.NewLine, lines.Skip(1)),
-                    Date = File.GetLastWriteTime(filename),
-                    IsWin = lines.FirstOrDefault()?.Trim().ToUpper() switch
-                    {
-                        "WIN" => true,
-                        "LOSS" => false,
-                        _ => null
-                    }
-                };
+                Filename = filename,
+                Text = File.ReadAllText(filename),
+                Date = File.GetLastWriteTime(filename),
+                IsWin = GetWinStateFromFile(filename) // Custom method to load state.
             })
             .OrderBy(note => note.Date);
 
